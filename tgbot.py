@@ -1,8 +1,15 @@
+import telebot
+import asyncio
 from telethon.sync import TelegramClient
-from config import API_ID, API_HASH
+from config import API_ID, API_HASH, TOKEN
 
+# Создаем экземпляр TelegramClient
 client = TelegramClient('session_name', API_ID, API_HASH)
 
+# Замените 'YOUR_BOT_TOKEN' на токен вашего бота
+bot = telebot.TeleBot(TOKEN)
+
+# Функция для получения сообщений из канала
 async def parse_channel_messages(channel_username, limit=5):
     await client.start()
     ans = []
@@ -22,6 +29,13 @@ async def parse_channel_messages(channel_username, limit=5):
 
     return ans
 
-channel_username = 'cbrstocks'
-ans = client.loop.run_until_complete(parse_channel_messages(channel_username))
-print(ans)
+
+# Обработчик команды /get_posts
+@bot.message_handler(commands=['get_posts'])
+def get_channel_posts(message):
+    channel_username = 'cbrstocks'  # Замените на ваше имя канала
+    ans = asyncio.run(parse_channel_messages(channel_username, limit=3))  # Вызываем асинхронную функцию
+    bot.reply_to(message, "\n\n".join(ans))
+
+# Запуск бота
+bot.polling()
