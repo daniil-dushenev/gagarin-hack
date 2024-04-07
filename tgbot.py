@@ -1,43 +1,58 @@
-import telebot
 import asyncio
-from telethon.sync import TelegramClient
-from config import API_ID, API_HASH, TOKEN
+import logging
+import sys
+from os import getenv
 
-# Создаем экземпляр TelegramClient
-client = TelegramClient('session_name', API_ID, API_HASH)
+from aiogram import Bot, Dispatcher, Router, types
+from aiogram.enums import ParseMode
+from aiogram.filters import CommandStart
+from aiogram.types import Message
+from aiogram.utils.markdown import hbold
 
-# Замените 'YOUR_BOT_TOKEN' на токен вашего бота
-bot = telebot.TeleBot(TOKEN)
+from config import TOKEN
 
-# Функция для получения сообщений из канала
-async def parse_channel_messages(channel_username, limit=5):
-    await client.start()
-    ans = []
-
-    # Получаем информацию о канале
-    channel_info = await client.get_entity(channel_username)
-
-    # Получаем все сообщения из канала
-    messages = await client.get_messages(channel_info, limit=limit)
-
-    # Выводим текст каждого сообщения
-    for message in messages:
-        ans.append(message.text)
-
-    # Останавливаем клиент Telegram
-    await client.disconnect()
-
-    return ans
+# Bot token can be obtained via https://t.me/BotFather
 
 
-# Обработчик команды /get_posts
-@bot.message_handler(commands=['get_posts'])
-def get_channel_posts(message):
-    channel_username = 'cbrstocks'  # Замените на ваше имя канала
-    ans = asyncio.run(parse_channel_messages(channel_username, limit=3))  # Вызываем асинхронную функцию
-
-    bot.reply_to(message, "\n\n".join(ans))
+# All handlers should be attached to the Router (or Dispatcher)
+dp = Dispatcher()
 
 
-bot.polling()
+@dp.message(CommandStart())
+async def command_start_handler(message: Message) -> None:
+    """
+    This handler receives messages with `/start` command
+    """
+    # Most event objects have aliases for API methods that can be called in events' context
+    # For example if you want to answer to incoming message you can use `message.answer(...)` alias
+    # and the target chat will be passed to :ref:`aiogram.methods.send_message.SendMessage`
+    # method automatically or call API method directly via
+    # Bot instance: `bot.send_message(chat_id=message.chat.id, ...)`
+    await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
 
+
+@dp.message()
+async def echo_handler(message: types.Message) -> None:
+    """
+    Handler will forward receive a message back to the sender
+
+    By default, message handler will handle all message types (like a text, photo, sticker etc.)
+    """
+    try:
+        # Send a copy of the received message
+        await message.send_copy(chat_id=message.chat.id)
+    except TypeError:
+        # But not all the types is supported to be copied so need to handle it
+        await message.answer("Nice try!")
+
+
+async def main() -> None:
+    # Initialize Bot instance with a default parse mode which will be passed to all API calls
+    bot = Bot(TOKEN)
+    # And the run events dispatching
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())
