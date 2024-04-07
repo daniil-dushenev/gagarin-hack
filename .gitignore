@@ -1,0 +1,5 @@
+config.py
+/.ipynb_checkpoints/
+/session_name.session
+.idea/
+__pycache__/
