@@ -35,7 +35,9 @@ async def parse_channel_messages(channel_username, limit=5):
 def get_channel_posts(message):
     channel_username = 'cbrstocks'  # Замените на ваше имя канала
     ans = asyncio.run(parse_channel_messages(channel_username, limit=3))  # Вызываем асинхронную функцию
+
     bot.reply_to(message, "\n\n".join(ans))
 
-# Запуск бота
+
 bot.polling()
+
