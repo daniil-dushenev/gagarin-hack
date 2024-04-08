@@ -43,6 +43,7 @@ async def main():
             error_message = f"Произошла ошибка при получении постов из канала {channel_username}: {str(e)}"
             await message.answer(error_message)
 
+
     # Initialize Bot instance with a default parse mode which will be passed to all API calls
     bot = Bot(TOKEN)
     # And the run events dispatching

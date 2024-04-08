@@ -1,6 +1,6 @@
 config.py
 /.ipynb_checkpoints/
-/session_name.session
+*.session
 .idea/
 __pycache__/
 venv
