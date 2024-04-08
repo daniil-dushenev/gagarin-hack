@@ -13,30 +13,11 @@ from aiogram.utils.markdown import hbold
 from telethon.sync import TelegramClient
 
 from config import API_ID, API_HASH, TOKEN
+from client import parse_channel_messages
 
 dp = Dispatcher()
 
 client = TelegramClient('session_name', API_ID, API_HASH)
-
-
-async def parse_channel_messages(channel_username, limit=5):
-    await client.start()
-    ans = []
-
-    # Получаем информацию о канале
-    channel_info = await client.get_entity(channel_username)
-
-    # Получаем все сообщения из канала
-    messages = await client.get_messages(channel_info, limit=limit)
-
-    # Выводим текст каждого сообщения
-    for message in messages:
-        ans.append(message.text)
-
-    # Останавливаем клиент Telegram
-    await client.disconnect()
-
-    return ans
 
 
 @dp.message(CommandStart())
@@ -58,7 +39,7 @@ async def get_channel_posts(message: types.Message,
                             command):
 
     channel_username = command.args
-    ans = await parse_channel_messages(channel_username, limit=3)  # Вызываем асинхронную функцию
+    ans = await parse_channel_messages(client, channel_username, limit=3)  # Вызываем асинхронную функцию
     await message.answer(f"Новости канала {channel_username}\n\n" + "\n\n".join(ans))
 
 
