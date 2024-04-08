@@ -3,19 +3,40 @@ import logging
 import sys
 from os import getenv
 
+import aiogram.filters
 from aiogram import Bot, Dispatcher, Router, types
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
-from config import TOKEN
+from telethon.sync import TelegramClient
 
-# Bot token can be obtained via https://t.me/BotFather
+from config import API_ID, API_HASH, TOKEN
 
-
-# All handlers should be attached to the Router (or Dispatcher)
 dp = Dispatcher()
+
+client = TelegramClient('session_name', API_ID, API_HASH)
+
+
+async def parse_channel_messages(channel_username, limit=5):
+    await client.start()
+    ans = []
+
+    # Получаем информацию о канале
+    channel_info = await client.get_entity(channel_username)
+
+    # Получаем все сообщения из канала
+    messages = await client.get_messages(channel_info, limit=limit)
+
+    # Выводим текст каждого сообщения
+    for message in messages:
+        ans.append(message.text)
+
+    # Останавливаем клиент Telegram
+    await client.disconnect()
+
+    return ans
 
 
 @dp.message(CommandStart())
@@ -31,19 +52,14 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
 
 
-@dp.message()
-async def echo_handler(message: types.Message) -> None:
-    """
-    Handler will forward receive a message back to the sender
 
-    By default, message handler will handle all message types (like a text, photo, sticker etc.)
-    """
-    try:
-        # Send a copy of the received message
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        # But not all the types is supported to be copied so need to handle it
-        await message.answer("Nice try!")
+@dp.message(aiogram.filters.Command('get_posts'))
+async def get_channel_posts(message: types.Message,
+                            command):
+
+    channel_username = command.args
+    ans = await parse_channel_messages(channel_username, limit=3)  # Вызываем асинхронную функцию
+    await message.answer(f"Новости канала {channel_username}\n\n" + "\n\n".join(ans))
 
 
 async def main() -> None:
