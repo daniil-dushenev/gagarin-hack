@@ -22,25 +22,20 @@ client = TelegramClient('session_name', API_ID, API_HASH)
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    """
-    This handler receives messages with `/start` command
-    """
-    # Most event objects have aliases for API methods that can be called in events' context
-    # For example if you want to answer to incoming message you can use `message.answer(...)` alias
-    # and the target chat will be passed to :ref:`aiogram.methods.send_message.SendMessage`
-    # method automatically or call API method directly via
-    # Bot instance: `bot.send_message(chat_id=message.chat.id, ...)`
-    await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
+    await message.answer(f"Привет, {hbold(message.from_user.full_name)}!", parse_mode=ParseMode.HTML)
 
 
 
 @dp.message(aiogram.filters.Command('get_posts'))
 async def get_channel_posts(message: types.Message,
                             command):
-
-    channel_username = command.args
-    ans = await parse_channel_messages(client, channel_username, limit=3)  # Вызываем асинхронную функцию
-    await message.answer(f"Новости канала {channel_username}\n\n" + "\n\n".join(ans))
+    try:
+        channel_username = command.args
+        ans = await parse_channel_messages(client, channel_username, limit=3)
+        await message.answer(f"Новости канала {channel_username}\n\n" + "\n\n".join(ans))
+    except Exception as e:
+        error_message = f"Произошла ошибка при получении постов из канала {channel_username}: {str(e)}"
+        await message.answer(error_message)
 
 
 async def main() -> None:
