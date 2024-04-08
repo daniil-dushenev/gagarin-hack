@@ -1,5 +1,6 @@
 from telethon.sync import TelegramClient
 
+
 async def parse_channel_messages(client: TelegramClient, channel_username, limit=5):
     await client.start()
     ans = []
