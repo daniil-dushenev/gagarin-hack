@@ -15,9 +15,18 @@ from telethon.sync import TelegramClient
 from config import API_ID, API_HASH, TOKEN
 from client import parse_channel_messages
 
+import torch
+import ml
+
 
 loop = asyncio.get_event_loop()
 dp = Dispatcher(loop=loop)
+
+if torch.cuda.is_available():
+    device = 'cuda'
+    model_llm, tokenizer_llm = ml.load_llm()
+
+model_bart, tokenizer_bart = ml.load_bart()
 
 
 async def create_telegram_client():
