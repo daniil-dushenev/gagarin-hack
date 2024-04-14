@@ -1,0 +1,99 @@
+{
+    "os": "Linux-6.5.0-27-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2024-04-14T00:57:47.121743",
+    "startedAt": "2024-04-14T00:57:45.872245",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "PycharmProjects/gagarin-hack/notebooks_important/main.ipynb",
+    "codePathLocal": null,
+    "root": "/home/daniil/PycharmProjects/gagarin-hack",
+    "git": {
+        "remote": "git@github.com:daniil-dushenev/gagarin-hack.git",
+        "commit": "c6fafecc68ccf16eb167f574e4b99eaafbcea7c2"
+    },
+    "email": "Danil.dushenev@gmail.com",
+    "host": "daniil-Modern-15-B12M",
+    "username": "daniil",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 10,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 2580.0888333333337,
+        "min": 400.0,
+        "max": 3666.6666666666665
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2014.532,
+            "min": 400.0,
+            "max": 4400.0
+        },
+        {
+            "current": 3719.214,
+            "min": 400.0,
+            "max": 4400.0
+        },
+        {
+            "current": 2623.7,
+            "min": 400.0,
+            "max": 4400.0
+        },
+        {
+            "current": 3171.057,
+            "min": 400.0,
+            "max": 4400.0
+        },
+        {
+            "current": 2636.395,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 2994.592,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3001.381,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 1654.042,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 2828.901,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 2987.545,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 2986.947,
+            "min": 400.0,
+            "max": 3300.0
+        },
+        {
+            "current": 2957.222,
+            "min": 400.0,
+            "max": 3300.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 467.8895797729492,
+            "used": 249.9684944152832
+        }
+    },
+    "memory": {
+        "total": 15.320755004882812
+    }
+}

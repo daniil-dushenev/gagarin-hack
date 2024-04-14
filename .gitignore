@@ -4,9 +4,5 @@ config.py
 .idea/
 __pycache__/
 venv
-/dataset_tinkoff_analytics.csv
-/dataset_209_samples.csv
-/dataset1.csv
-/dataset_divForever.csv
-/dataset2_labled.csv
-/dataset1_labled.csv
+weights/best_model_0.6734842951059167.pth
+weights/best_model_0.65_fixed.pth
