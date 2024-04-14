@@ -44,12 +44,12 @@ def replace_on_token(text, names_company):
     return text
 
 
-def create_cfg(model_path, alias_path):
-    tokenizer = AutoTokenizer.from_pretrained("./weights/tokenizer/", local_files_only=True)
+def create_cfg(model_path, alias_path, synonyms_path):
+    tokenizer = AutoTokenizer.from_pretrained("weights/tokenizer", local_files_only=True)  # ./weights/tokenizer/
     tokenizer.add_tokens(['[COMP]'])
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = torch.load(model_path, map_location=torch.device(device))
-    synonyms = pd.read_csv('data/new_names_and_synonyms_i_already_letter_maybe.csv')
+    synonyms = pd.read_csv(synonyms_path)
     dict_mine = {}
     for index, row in synonyms.iterrows():
         issuerid = row['issuerid']
@@ -64,7 +64,7 @@ def create_cfg(model_path, alias_path):
         'tokenizer': tokenizer,
         'device': device,
         'alias_dict': alias_dict,
-        'dict_mine':dict_mine
+        'dict_mine': dict_mine
     }
     return need_utils
 
