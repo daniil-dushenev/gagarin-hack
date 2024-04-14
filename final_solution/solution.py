@@ -44,8 +44,8 @@ def replace_on_token(text, names_company):
     return text
 
 
-def create_cfg(model_path, alias_path):
-    tokenizer = AutoTokenizer.from_pretrained("./weights/tokenizer/", local_files_only=True)
+def create_cfg(model_path, alias_path, synonyms_path):
+    tokenizer = AutoTokenizer.from_pretrained("weights/tokenizer", local_files_only=True)  # ./weights/tokenizer/
     tokenizer.add_tokens(['[COMP]'])
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = AutoModelForSequenceClassification.from_pretrained(model_path)
@@ -64,7 +64,7 @@ def create_cfg(model_path, alias_path):
         'tokenizer': tokenizer,
         'device': device,
         'alias_dict': alias_dict,
-        'dict_mine':dict_mine
+        'dict_mine': dict_mine
     }
     return need_utils
 
