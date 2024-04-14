@@ -48,7 +48,7 @@ def create_cfg(model_path, alias_path):
     tokenizer = AutoTokenizer.from_pretrained("./weights/tokenizer/", local_files_only=True)
     tokenizer.add_tokens(['[COMP]'])
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = torch.load(model_path, map_location=torch.device(device))
+    model = AutoModelForSequenceClassification.from_pretrained(model_path)
     synonyms = pd.read_csv('data/new_names_and_synonyms_i_already_letter_maybe.csv')
     dict_mine = {}
     for index, row in synonyms.iterrows():

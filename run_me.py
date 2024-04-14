@@ -23,7 +23,7 @@ def save_data(data, path: pathlib.PosixPath = PATH_TO_OUTPUT_DATA):
 
 
 def main():
-    model_path = 'weights/best_model_0_6734842951059167.pth'
+    model_path = 'weights/DENCHIK3000'
     alias_path = 'data/alias_dict.pickle'
     synonyms_path = 'data/new_names_and_synonyms_i_already_letter_maybe.csv'
     cfg = final_solution.solution.create_cfg(model_path, alias_path, synonyms_path)
